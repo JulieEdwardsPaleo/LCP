@@ -115,54 +115,7 @@ def simple_cps(climate,cyr,proxy,pyr,calibrate,validate):
 
     return yhat, s3R2v, s3R2c,s3RE, s3CE
 
-def tbrm(data, c=9):
-    e = 1 * pow(10, -8)
-    m = np.median(data)
 
-    s = np.median(getabs(data - m)) # star?
-
-    u = (data - m) / ((c * s) + e)
-
-    w = np.zeros(len(data))
-
-    for i in range(len(u)):
-        if abs(u[i]) <= 1:
-            w[i] = pow((1 - pow(u[i], 2)), 2)
-
-    return np.sum(w*data)/np.sum(w)
-
-def getabs(data):
-    for i in range(len(data)):
-        data[i] = abs(data[i])
-    
-    return data
-
-# Date: 11/1/2022
-# Author: Ifeoluwa Ale
-# Title: smoothingspline.py
-# Description: This contains the spline method which fits a series to
-#              a spline curve.
-# example usage (in other file):
-# from smoothingspline import spline
-# yi = spline(series)
-
-
-
-# Returns the spline parameter, given amplitude of the series and the period
-def get_param(amp, period):
-    freq = 1/period
-    spline_param = 1/(((cos(2 * pi * freq) + 2) * (1 - amp)/(12 * amp * (cos(2 * pi * freq) - 1) ** 2))+ 1)
-    return spline_param
-
-# Fits a curve to the series given as input and returns the y-values of the curve
-def spline(x, y, period=None):
-    if period == None:
-        period = len(x) * 0.67
-    
-    p = get_param(0.5, period)
-    yi = csaps(x, y, x, smooth=p)
-    detrendy = y - yi
-    return detrendy
 
 def varimax_rotation(A, reltol=1e-9, itermax=1000, normalize=False):
     # following Lawley and Maxwell (1962)
