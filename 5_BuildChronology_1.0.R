@@ -6,8 +6,8 @@ rm(list=ls())
 
 #Calling arguments if R script is called from python
 args = commandArgs(trailingOnly=TRUE)
-Workdir3= toString(args[1])
-Workdir4= toString(args[2])
+Workdir3= ######## Location of LCL or LCH gap_ files
+Workdir4= ###### Location to save LCL and LCH chronologies
 
 
 #output
