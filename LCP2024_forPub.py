@@ -84,7 +84,7 @@ def process_qwa_data(workdir, series, reso, method):
 
 # TopoWx Temperature data
 climate_data_dir = '/Users/julieedwards/Documents/Projects/LCP/climate_data/'
-topo_files = ['LCH_topo_tmean.csv', 'LCHtopoMonthly.csv', 'LCLtopoMonthly.csv', 'TotalWaterYearPrecip.csv']
+topo_files = ['LCHtopoMonthly.csv', 'LCLtopoMonthly.csv']
 topo_data = read_csv_files(climate_data_dir, topo_files)
 
 # QWA Data - 30 year spline and linear detrend
