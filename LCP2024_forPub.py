@@ -16,6 +16,12 @@ import math
 from sklearn.preprocessing import StandardScaler
 
 
+################ Change directory locations first ######################
+
+ClimateDir= ###### Location of climate data files
+qwa_high_dir= ####### Location of LCH QWA chronology files
+qwa_low_dir = ####### Location of LCH QWA chronology files
+FigDir= ##### location of figure directory, end string with a '/'
 
 
 ###########################################
@@ -34,7 +40,7 @@ def extract_time_components(data_array):
     month = data_array['time'].dt.strftime('%m').values
     return year, month
 
-climate_data_dir = '/Users/julieedwards/Documents/Projects/LCP/climate_data/cru/'
+climate_data_dir = ClimateDir
 climate_variables = {
     'Tmean_CRU': 'icru4_tmp_-105.22E_36.83N_n.nc',
     'Tmax_CRU': 'icru4_tmx_-105.22E_36.83N_n.nc',
@@ -83,7 +89,7 @@ def process_qwa_data(workdir, series, reso, method):
     return frame
 
 # TopoWx Temperature data
-climate_data_dir = '/Users/julieedwards/Documents/Projects/LCP/climate_data/'
+climate_data_dir = ClimateDir
 topo_files = ['LCHtopoMonthly.csv', 'LCLtopoMonthly.csv']
 topo_data = read_csv_files(climate_data_dir, topo_files)
 
@@ -91,10 +97,8 @@ topo_data = read_csv_files(climate_data_dir, topo_files)
 series = ["MXCWTRAD", "MXDCWA", "EWW", "MRW", "LWW", "MXCWTTAN", "MLA.EW"]
 reso = "20mu"
 method = "q75"
-qwa_high_dir= '/Users/julieedwards/Documents/Projects/LCP/QWA_High/concat/Summary/'
 uHiSpline20 = process_qwa_data(qwa_high_dir, series, reso, method)
 
-qwa_low_dir = '/Users/julieedwards/Documents/Projects/LCP/QWA_Low/concat/Summary/'
 uLoSpline20 = process_qwa_data(qwa_low_dir, series, reso, method)
 
 
@@ -140,7 +144,7 @@ def generate_climatology_plot(Tmean_CRU, Precip_CRU, topoMH, topoML):
                      color=[0.1294, 0.4000, 0.6745], label=None,
                      ylabel='Precipitation (mm)', ylim=(-30, 100), fill=True)
     fig.tight_layout()  
-    plt.savefig('/Users/julieedwards/Documents/Projects/LCP/Figures/climatology.eps', format="eps", transparent=True)
+    plt.savefig(FigDir+'climatology.eps', format="eps", transparent=True)
 
 
 
@@ -228,7 +232,7 @@ biplot(axs[1, 0], Reofs_lo, ['',''], colors, SeriesLabel, 'LCL QWA Rotated PCA',
 biplot(axs[1, 1], Reofs_hi, ['',''], colors, SeriesLabel, 'LCH QWA Rotated PCA', 'd)',rotated=True)
 
 fig.tight_layout(w_pad=1,h_pad=0.8)
-plt.savefig('/Users/julieedwards/Documents/Projects/LCP/Figures/PCA_ALL.eps', format='eps')
+plt.savefig(FigDir+'PCA_ALL.eps', format='eps')
  
 
 ##################################
@@ -320,7 +324,7 @@ cbar_ax = fig.add_axes([0.87, 0.1, 0.02, 0.8])
 fig.colorbar(r,cax=cbar_ax,label='Correlation (R)',ticks=np.linspace(-.6,.6,num=13))
 plt.subplots_adjust(bottom=0.1, right=.85, top=0.9,left=0.15)
 fig.suptitle('LCL                                 LCH',fontsize=18,y=0.96)
-plt.savefig('/Users/julieedwards/Documents/Projects/LCP/Figures/climatecorr.eps', format='eps')
+plt.savefig(FigDir+'climatecorr.eps', format='eps')
 
 
 
@@ -514,7 +518,7 @@ fig.legend(lch,['LCH EWLA'],frameon=False,loc='upper left',fontsize=8,bbox_to_an
 plt.tight_layout(pad=0)
 fig.supxlabel("Year",y=-0.03,fontsize=10)
 
-plt.savefig('/Users/julieedwards/Documents/Projects/LCP/Figures/DroughtPanels.eps', transparent=False,bbox_inches = 'tight')
+plt.savefig(FigDir+'DroughtPanels.eps', transparent=False,bbox_inches = 'tight')
 plt.show()
 
 
@@ -524,7 +528,7 @@ plt.show()
 ####################################
 
 
-snotel = pd.read_csv('/Users/julieedwards/Documents/Projects/LCP/climate_data/snow/wateryearSNOTEL.csv', index_col=None, header=None)
+snotel = pd.read_csv(ClimateDir+'wateryearSNOTEL.csv', index_col=None, header=None)
 snotelyears=range(1981,2018)
 snotel.index=['o','n','d','J','F','Mr','A','M','Jn','Jl','Au','s']
 snotel.columns=list(snotelyears)
@@ -581,6 +585,6 @@ cbar_ax = fig.add_axes([1.01, .175, .01, .745])
 fig.colorbar(r,cax=cbar_ax,label='Correlation (R)',ticks=np.linspace(-.6,.6,num=7))
 plt.subplots_adjust(left=0.5)
 fig.suptitle('SNOTEL (1981-2017)',y=1.08,x=.75)
-plt.savefig('/Users/julieedwards/Documents/Projects/LCP/Figures/snotelcorr.eps', format='eps',bbox_inches = 'tight')
+plt.savefig(FigDir+'snotelcorr.eps', format='eps',bbox_inches = 'tight')
 
 
